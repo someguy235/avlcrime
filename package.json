@@ -1,0 +1,12 @@
+{
+  "name": "avlcrime",
+  "description": "mapping asheville nc crime stats",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "request": "2.27.0",
+    "underscore": "1.5.2",
+    "async": "0.2.9",
+    "mongojs": "0.9.6"
+  }
+}
