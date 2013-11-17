@@ -42,6 +42,18 @@ app.post('/avlcrime/crimes', function(req, response){
   })
 });
 
+app.get('/avlcrime/params', function(req, response){
+  console.log("params");
+  
+  var params = {
+    offenses: ['Drug Arrest', 'Vandalism', 'Larceny'],
+    severities: ['Felony', 'Misdemeanor'],
+    years: ['2013', '2012']
+  }
+
+  response.send(params, 200);
+});
+
 app.listen(3001);
 console.log(new Date() +": avlcrime listening on port 3001");
 

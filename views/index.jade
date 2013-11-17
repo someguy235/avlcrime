@@ -6,16 +6,27 @@ html(lang="en")
 
     link(rel="stylesheet" href="/avlcrime/resources/css/main.css")
     link(rel="stylesheet" href="/avlcrime/resources/vendor/leaflet/leaflet.css")
-    //link(rel="stylesheet" href="/avlcrime/resources/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/avlcrime/resources/css/bootstrap.min.css")
     //link(rel="stylesheet" href="/avlcrime/resources/css/nv.d3.css")
   body
     div(ng-app="CrimeApp")
       div.row-fluid(ng-controller="DisplayController")
         div.main.centered.span8.offset2
           div#map
+      div.row-fluid(ng-controller="FormController")
+        div.main.centered.span8.offset2
+          form(ng-submit="")
+            div.row-fluid.btn-group(data-toggle="buttons")
+              button.btn.btn-primary(ng-repeat="severity in severities" ng-model="severity.selected" value="{{severity.name}}" type="checkbox" checkbox-toggle="") {{severity.name}}
+            br
+            div.row-fluid.btn-group(data-toggle="buttons")
+              button.btn.btn-primary(ng-repeat="offense in offenses" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") {{offense.name}}
+            br
+            div.row-fluid.btn-group(data-toggle="buttons")
+              button.btn.btn-primary(ng-repeat="year in years" ng-model="year.selected" value="{{year.name}}" type="checkbox" checkbox-toggle="") {{year.name}}
 
-    //script(type="text/javascript" src="/avlcrime/resources/js/jquery-1.7.1.min.js")
-    //script(type="text/javascript" src="/avlcrime/resources/js/bootstrap.min.js")
+    script(type="text/javascript" src="/avlcrime/resources/js/jquery-1.7.1.min.js")
+    script(type="text/javascript" src="/avlcrime/resources/js/bootstrap.min.js")
     script(type="text/javascript" src="/avlcrime/resources/js/angular.min.js")
     script(type="text/javascript" src="/avlcrime/resources/vendor/leaflet/leaflet.js")
     //script(type="text/javascript" src="/avlcrime/resources/js/d3.v3.min.js")
