@@ -19,6 +19,7 @@ request(crimesURL, function(err, res, body){
         console.log("err: "+ err);
       }else if(!fndCrimes.length){
         console.log(key +": crime not found in cache")
+        /*
         var newCrime = {
           idnum: inCrime.properties.idnum,
           casenum: inCrime.properties.casenumber,
@@ -33,7 +34,8 @@ request(crimesURL, function(err, res, body){
             lon: inCrime.geometry.coordinates[0]
           }
         }
-        db.crimes.save(newCrime, function(err, saved){
+        */
+        db.crimes.save(inCrime, function(err, saved){
           if(err || !saved) console.log("crime not saved: "+ err);
           else{
             console.log("crime saved");

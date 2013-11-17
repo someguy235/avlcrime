@@ -1,0 +1,33 @@
+doctype 5
+html(lang="en")
+  head
+    title= "Asheville Crime Map"
+    meta(http-equiv="Content-Type", content="text/html; charset=iso-8859-1")
+
+    link(rel="stylesheet" href="/avlcrime/resources/css/main.css")
+    link(rel="stylesheet" href="/avlcrime/resources/vendor/leaflet/leaflet.css")
+    //link(rel="stylesheet" href="/avlcrime/resources/css/bootstrap.min.css")
+    //link(rel="stylesheet" href="/avlcrime/resources/css/nv.d3.css")
+  body
+    div(ng-app="CrimeApp")
+      div.row-fluid(ng-controller="DisplayController")
+        div.main.centered.span8.offset2
+          div#map
+
+    //script(type="text/javascript" src="/avlcrime/resources/js/jquery-1.7.1.min.js")
+    //script(type="text/javascript" src="/avlcrime/resources/js/bootstrap.min.js")
+    script(type="text/javascript" src="/avlcrime/resources/js/angular.min.js")
+    script(type="text/javascript" src="/avlcrime/resources/vendor/leaflet/leaflet.js")
+    //script(type="text/javascript" src="/avlcrime/resources/js/d3.v3.min.js")
+    //script(type="text/javascript" src="/avlcrime/resources/js/nv.d3.min.js")
+    script(type="text/javascript" src="/avlcrime/resources/js/controllers.js")
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-45059432-1', 'ethanshepherd.com');
+      ga('send', 'pageview');
+
+
