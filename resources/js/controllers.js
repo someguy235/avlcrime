@@ -29,7 +29,7 @@ CrimeModule.directive('checkboxToggle', function() {
     require: 'ngModel',
     link: function($scope, element, attr, ctrl) {
       // ignore other kind of button groups (e.g. buttons-radio)
-      if (!element.parent('[data-toggle="buttons-checkbox"].btn-group').length) {
+      if (!element.parent('[data-toggle="buttons-checkbox"].btn-group-vertical').length) {
         return;
       }
 
@@ -117,7 +117,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
     'Homicide': '#4CE835'
   }
   var geojsonMarkerOptions = {
-    radius: 8,
+    radius: 5,
     fillColor: "#ff7800",
     color: "#000",
     weight: 1,
