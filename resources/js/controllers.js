@@ -23,31 +23,6 @@ function Main($scope){
 
 }
 
-//angular.module('buttonsToggle', []).directive('buttonsToggle', function() {
-//var ButtonModule = angular.module('LastFmApp', []).directive('buttonsRadio', function() {
-/*
-CrimeModule.directive('checkboxToggle', function() {
-  return {
-    restrict: 'A',
-    require: 'ngModel',
-    link: function($scope, element, attr, ctrl) {
-      element.bind('click', function() {
-        $scope.$apply(function(scope) {
-          ctrl.$setViewValue(attr.value);
-        });
-      });
-
-      // This should just be added once, but is added for each radio input now?
-      $scope.$watch(attr.ngModel, function(newValue, oldValue) {
-        //element.parent(".btn-group").find('button').removeClass("active");
-        element.parent(".btn-group") //.children()
-        .find("button[value='" + newValue + "']").toggleClass('active');
-      });
-    }
-  };
-});
-*/
-
 CrimeModule.directive('checkboxToggle', function() {
   return {
     restrict: 'A',
@@ -130,6 +105,25 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   $scope.CrimeService = CrimeService;
   $scope.map = L.map('map').setView([35.595, -82.552], 12);
   $scope.layer;
+  var FILL_COLORS = {
+    'Drug Arrest': '#FFC73F',
+    'Vandalism': '#E8903A',
+    'Larceny of Motor Vehicle': '#FF754C',
+    'Larceny': '#E83A4E',
+    'Burglary': '#FC3FFF',
+    'Robbery': '#5171FF',
+    'Aggravated Assault': '#35C4E8',
+    'Rape': '#47FFAD',
+    'Homicide': '#4CE835'
+  }
+  var geojsonMarkerOptions = {
+    radius: 8,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+  };
 
   L.tileLayer(
     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -156,14 +150,19 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
         $scope.map.removeLayer($scope.layer);
       }
       $scope.layer = L.geoJson(data,{
-        onEachFeature: onEachFeature
+        onEachFeature: onEachFeature,
+        pointToLayer: function(feature, latlng){
+          //console.log("feature: "+ feature.properties.offense);
+          geojsonMarkerOptions.fillColor = FILL_COLORS[feature.properties.offense];
+          return L.circleMarker(latlng, geojsonMarkerOptions);
+        }
       }).addTo($scope.map);
     }).error(function (data, status, headers, config) {
       console.log("error")
     });
   }
 
-  $scope.getResults();
+  //$scope.getResults();
 
   $scope.$watch('CrimeService.severities', function(newVal, oldVal, scope){
     if(newVal !== oldVal){
@@ -189,8 +188,11 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
 })
 
 function onEachFeature(feature, layer) {
-  var popupContent = ""+ feature.properties.thedate.substring(0,10) +"<br>"
-  popupContent += feature.properties.severity +": "+ feature.properties.offense
+  var popupContent = ""+ feature.properties.thedate.substring(0,10) +"<br>"+
+    feature.properties.offense +"<br>"+
+    //feature.properties.severity +": "+ feature.properties.offense +"<br>"+
+    feature.properties.address
+    
   layer.bindPopup(popupContent);
 }
 

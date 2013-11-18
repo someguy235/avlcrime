@@ -40,7 +40,7 @@ app.post('/avlcrime/crimes', function(req, response){
       {"properties.thedate": {$gte: minYear}}, 
       {"properties.thedate": {$lt: maxYear}}
     ],
-    "properties.severity": { $in: params.severities }, 
+    //"properties.severity": { $in: params.severities }, 
     "properties.offense": { $in: params.offenses } }, 
     function(err, crimes){
     if(err){
@@ -57,7 +57,7 @@ app.get('/avlcrime/params', function(req, response){
   var params = {
     offenses: [],
     severities: [],
-    years: ['2011', '2012', '2013']
+    years: []
   }
 
   async.parallel({
@@ -82,7 +82,7 @@ app.get('/avlcrime/params', function(req, response){
       });
     },
     years: function(callback){
-      callback(null, ['2011', '2012', '2013']);
+      callback(null, ['2012', '2013']);
     },
   },
   function(err, result){
