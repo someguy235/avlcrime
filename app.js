@@ -27,15 +27,26 @@ app.get('/avlcrime', function(req, res){
 });
 
 app.post('/avlcrime/crimes', function(req, response){
-  console.log("crimes");
-  var session = req.session
-  var params = req.body;
+  //console.log("crimes");
+  var params = req.body, maxYear = [], minYear = [];
+  //console.log("params: "+ JSON.stringify(params));
+  if(params.years.length){
+    var maxYear = (parseInt(Math.max.apply(null, params.years)) + 1) + "-01-01 00:00:00.0";
+    var minYear = Math.min.apply(null, params.years) + "-01-01 00:00:00.0";
+  }
 
-  var now = "2013-10-01 00:00:00.0";
-  db.crimes.find({"properties.thedate": {$gt: now}, "properties.severity": "Felony"}, function(err, crimes){
+  db.crimes.find({ 
+    $and:[
+      {"properties.thedate": {$gte: minYear}}, 
+      {"properties.thedate": {$lt: maxYear}}
+    ],
+    "properties.severity": { $in: params.severities }, 
+    "properties.offense": { $in: params.offenses } }, 
+    function(err, crimes){
     if(err){
       console.log("err: "+ err);
     }else{
+      //console.log("crimes: "+ crimes.length);
       var fc = {type: "FeatureCollection", features: crimes}
       response.send(fc, 200);
     }
@@ -43,15 +54,40 @@ app.post('/avlcrime/crimes', function(req, response){
 });
 
 app.get('/avlcrime/params', function(req, response){
-  console.log("params");
-  
   var params = {
-    offenses: ['Drug Arrest', 'Vandalism', 'Larceny'],
-    severities: ['Felony', 'Misdemeanor'],
-    years: ['2013', '2012']
+    offenses: [],
+    severities: [],
+    years: ['2011', '2012', '2013']
   }
 
-  response.send(params, 200);
+  async.parallel({
+    severities: function(callback){
+      db.crimes.distinct('properties.severity', function(err, sev){
+        if(err){
+          console.log(err);
+        }else{
+          params.severities = sev;
+        }
+        callback(null, sev);
+      });
+    },
+    offenses: function(callback){
+      db.crimes.distinct('properties.offense', function(err, off){
+        if(err){
+          console.log(err);
+        }else{
+          params.offenses = off;
+        }
+        callback(null, off);
+      });
+    },
+    years: function(callback){
+      callback(null, ['2011', '2012', '2013']);
+    },
+  },
+  function(err, result){
+    response.send(result, 200);
+  });
 });
 
 app.listen(3001);

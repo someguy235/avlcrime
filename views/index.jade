@@ -16,13 +16,13 @@ html(lang="en")
       div.row-fluid(ng-controller="FormController")
         div.main.centered.span8.offset2
           form(ng-submit="")
-            div.row-fluid.btn-group(data-toggle="buttons")
+            div.row-fluid.btn-group(data-toggle="buttons-checkbox")
               button.btn.btn-primary(ng-repeat="severity in severities" ng-model="severity.selected" value="{{severity.name}}" type="checkbox" checkbox-toggle="") {{severity.name}}
             br
-            div.row-fluid.btn-group(data-toggle="buttons")
+            div.row-fluid.btn-group(data-toggle="buttons-checkbox")
               button.btn.btn-primary(ng-repeat="offense in offenses" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") {{offense.name}}
             br
-            div.row-fluid.btn-group(data-toggle="buttons")
+            div.row-fluid.btn-group(data-toggle="buttons-checkbox")
               button.btn.btn-primary(ng-repeat="year in years" ng-model="year.selected" value="{{year.name}}" type="checkbox" checkbox-toggle="") {{year.name}}
 
     script(type="text/javascript" src="/avlcrime/resources/js/jquery-1.7.1.min.js")
