@@ -5,6 +5,17 @@
 
 var events, showSpinner = false, showError = false, showChart = false;
 var offenses, severities, years;
+var FILL_COLORS = {
+  'Drug Arrest': '#FFC73F',
+  'Vandalism': '#E8903A',
+  'Larceny of Motor Vehicle': '#FF754C',
+  'Larceny': '#E83A4E',
+  'Burglary': '#FC3FFF',
+  'Robbery': '#5171FF',
+  'Aggravated Assault': '#35C4E8',
+  'Rape': '#47FFAD',
+  'Homicide': '#4CE835'
+}
 //var offenses = null, severities = null, years = null;
 
 var CrimeModule = angular.module('CrimeApp', []);
@@ -53,50 +64,22 @@ CrimeModule.directive('checkboxToggle', function() {
 });
 
 CrimeModule.controller("FormController", function($scope, $http, CrimeService){
-
   $http({
     url: '/avlcrime/params',
     method: "GET",
     headers: {'Content-Type': 'application/json'}
   }).success(function (data, status, headers, config) {
-    console.log("data: "+ JSON.stringify(data));
-    var tmpSev = []
-    for(var i=0; i<data.severities.length; i++){
-      tmpSev.push({name: data.severities[i], selected: false})
-    }
-    $scope.severities = tmpSev;
-
     var tmpOff = []
     for(var i=0; i<data.offenses.length; i++){
-      tmpOff.push({name: data.offenses[i], selected: false})
+      tmpOff.push({name: data.offenses[i], selected: false, color: FILL_COLORS[data.offenses[i]]})
     }
     $scope.offenses = tmpOff;
-
-    var tmpYr = []
-    for(var i=0; i<data.years.length; i++){
-      tmpYr.push({name: data.years[i], selected: false})
-    }
-    $scope.years = tmpYr;
   }).error(function (data, status, headers, config) {
     console.log("error")
   });
-
-  $scope.$watch('severities', function(newVal, oldVal, scope){
-    if(newVal !== oldVal){
-      CrimeService.severities = newVal
-      //console.log("form severities change: "+ JSON.stringify(CrimeService.severities));
-    }
-  }, true)
   $scope.$watch('offenses', function(newVal, oldVal, scope){
     if(newVal !== oldVal){
       CrimeService.offenses = newVal;
-      //console.log("form offenses change: "+ JSON.stringify(CrimeService.offenses)); 
-    }
-  }, true)
-  $scope.$watch('years', function(newVal, oldVal, scope){
-    if(newVal !== oldVal){
-      CrimeService.years = newVal;
-      //console.log("form years change: "+ JSON.stringify(CrimeService.years));
     }
   }, true)
 })
@@ -105,17 +88,6 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   $scope.CrimeService = CrimeService;
   $scope.map = L.map('map').setView([35.595, -82.552], 12);
   $scope.layer;
-  var FILL_COLORS = {
-    'Drug Arrest': '#FFC73F',
-    'Vandalism': '#E8903A',
-    'Larceny of Motor Vehicle': '#FF754C',
-    'Larceny': '#E83A4E',
-    'Burglary': '#FC3FFF',
-    'Robbery': '#5171FF',
-    'Aggravated Assault': '#35C4E8',
-    'Rape': '#47FFAD',
-    'Homicide': '#4CE835'
-  }
   var geojsonMarkerOptions = {
     radius: 5,
     fillColor: "#ff7800",
@@ -133,9 +105,9 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   $scope.getResults = function(){
     //console.log("getting results");
     postData = {
-      severities: filterSelected(CrimeService.severities),
+      //severities: filterSelected(CrimeService.severities),
       offenses: filterSelected(CrimeService.offenses),
-      years: filterSelected(CrimeService.years)
+      //years: filterSelected(CrimeService.years)
     }
     //console.log("postData: "+ JSON.stringify(postData));
     $http({

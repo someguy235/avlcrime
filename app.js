@@ -30,16 +30,17 @@ app.post('/avlcrime/crimes', function(req, response){
   //console.log("crimes");
   var params = req.body, maxYear = [], minYear = [];
   //console.log("params: "+ JSON.stringify(params));
+  /*
   if(params.years.length){
     var maxYear = (parseInt(Math.max.apply(null, params.years)) + 1) + "-01-01 00:00:00.0";
     var minYear = Math.min.apply(null, params.years) + "-01-01 00:00:00.0";
   }
-
+  */
   db.crimes.find({ 
-    $and:[
-      {"properties.thedate": {$gte: minYear}}, 
-      {"properties.thedate": {$lt: maxYear}}
-    ],
+    //$and:[
+    //  {"properties.thedate": {$gte: minYear}}, 
+    //  {"properties.thedate": {$lt: maxYear}}
+    //],
     //"properties.severity": { $in: params.severities }, 
     "properties.offense": { $in: params.offenses } }, 
     function(err, crimes){

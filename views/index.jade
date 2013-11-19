@@ -6,23 +6,59 @@ html(lang="en")
 
     link(rel="stylesheet" href="/avlcrime/resources/css/main.css")
     link(rel="stylesheet" href="/avlcrime/resources/vendor/leaflet/leaflet.css")
-    link(rel="stylesheet" href="/avlcrime/resources/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/avlcrime/resources/vendor/bootstrap/css/bootstrap.min.css")
     //link(rel="stylesheet" href="/avlcrime/resources/css/nv.d3.css")
   body
-    div(ng-app="CrimeApp")
-      div.row-fluid.span12
-        div.main.centered.span2(ng-controller="FormController")
+    div.container(ng-app="CrimeApp")
+      div.row
+        div.page-header
+          h1 Asheville, NC
+            small  crime information
+      div.row
+        div.main.centered.col-md-3(ng-controller="FormController")
           form(ng-submit="")
             div.row-fluid.btn-group-vertical(data-toggle="buttons-checkbox")
-              button.btn.btn-primary(ng-repeat="offense in offenses" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") {{offense.name}} 
-            br
-            br
-            div.row-fluid.btn-group-vertical(data-toggle="buttons-checkbox")
-              button.btn.btn-primary(ng-repeat="year in years" ng-model="year.selected" value="{{year.name}}" type="checkbox" checkbox-toggle="") {{year.name}}
-        div.main.centered.span9(ng-controller="DisplayController")
+              button.btn.btn-default(ng-repeat="offense in offenses" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") 
+                div.keyCircle(style="background-color:{{offense.color}}")
+                {{offense.name}} 
+        div.main.centered.col-md-9(ng-controller="DisplayController")
           div#map
+      div.row
+        br
+        div.col-md-12
+          div.well.well-sm
+           h4 The data and information this application provides is to be used as a guide for crime reported to the Asheville Police Department (APD).
+           h4 The time period for crime data included in this application is for the past year only.
+           ul
+            li 
+              b Homicide: 
+              The willful (nonnegligent) killing of one human being by another.
+            li 
+              b Rape: 
+              The carnal knowledge of a female forcibly and against her will.
+            li 
+              b Robbery: 
+              The taking or attempting to take anything of value by force or threat.
+            li 
+              b Aggravated Assault: 
+              The unlawful attack by one person upon another for the purpose of inflicting severe bodily harm.
+            li 
+              b Burglary: 
+              The unlawful entry of a structure to commit a felony or theft.
+            li 
+              b Larceny: 
+              The unlawful taking or stealing of property without the use of force, violence, or fraud.
+            li 
+              b Larceny of Motor Vehicle: 
+              The unlawful taking or stealing of a motor vehicle, including attempts.
+            li 
+              b Vandalism: 
+              The malicious destruction, injury, disfigurement or defacement of real or personal property.
+            li 
+              b Drugs: 
+              State and/or local offenses relating to the unlawful possession, sale, use, growing, manufacturing, and making of narcotic drugs including opium or cocaine and their derivatives, marijuana, synthetic narcotics, and dangerous nonnarcotic drugs such as barbiturates. 
     script(type="text/javascript" src="/avlcrime/resources/js/jquery-1.7.1.min.js")
-    script(type="text/javascript" src="/avlcrime/resources/js/bootstrap.min.js")
+    script(type="text/javascript" src="/avlcrime/resources/vendor/bootstrap/js/bootstrap.min.js")
     script(type="text/javascript" src="/avlcrime/resources/js/angular.min.js")
     script(type="text/javascript" src="/avlcrime/resources/vendor/leaflet/leaflet.js")
     //script(type="text/javascript" src="/avlcrime/resources/js/d3.v3.min.js")
