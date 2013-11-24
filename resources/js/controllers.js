@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-var offenses, layers = {};
+var offenses, layers = {}, crimesCount = 0;
 var showPoints = true, showHeat = false;
 var FILL_COLORS = {
   'Drug Arrest': '#006837',
@@ -23,7 +23,8 @@ CrimeModule.factory('CrimeService', function(){
     offenses: offenses,
     layers: layers,
     showPoints: showPoints,
-    showHeat: showHeat
+    showHeat: showHeat,
+    crimesCount: crimesCount
   }
   return service
 })
@@ -64,9 +65,11 @@ CrimeModule.directive('checkboxToggle', function() {
 });
 
 CrimeModule.controller("FormController", function($scope, $http, CrimeService){
+  $scope.CrimeService = CrimeService;
   $scope.showPoints = CrimeService.showPoints;
   $scope.showHeat = CrimeService.showHeat;
-
+  $scope.crimesCount = CrimeService.crimesCount;
+  
   $http({
     url: '/avlcrime/params',
     method: "GET",
@@ -94,6 +97,11 @@ CrimeModule.controller("FormController", function($scope, $http, CrimeService){
   $scope.$watch('showHeat', function(newVal, oldVal, scope){
     if(newVal !== oldVal){
       CrimeService.showHeat = newVal;
+    }
+  }, true)
+  $scope.$watch('CrimeService.crimesCount', function(newVal, oldVal, scope){
+    if(newVal !== oldVal){
+     $scope.crimesCount = CrimeService.crimesCount;
     }
   }, true)
 })
@@ -191,6 +199,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
       $scope.map.addLayer(hmLayer);
       hmLayer.setData(hmLayerData);
     }
+    CrimeService.crimesCount = hmLayerData.length;
   }
 
   $scope.$watch('CrimeService.offenses', function(newVal, oldVal, scope){

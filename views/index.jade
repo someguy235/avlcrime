@@ -20,11 +20,13 @@ html(lang="en")
               button.btn.btn-default(ng-repeat="offense in offenses" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") 
                 div.keyCircle(style="background-color:{{offense.color}}")
                 {{offense.name}} 
-            div.row-fluid
-              br
             div.row-fluid.btn-group(data-toggle="buttons-checkbox")
+              br
               button.btn.btn-default(ng-model="showPoints" type="checkbox" checkbox-toggle="") Points
               button.btn.btn-default(ng-model="showHeat" type="checkbox" checkbox-toggle="") Heat
+            div.row-fluid
+              br
+              | Crimes Found: {{crimesCount}}
         div.main.centered.col-md-9(ng-controller="DisplayController")
           div#map
       div.row
