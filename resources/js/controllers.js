@@ -116,7 +116,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   );
 
   var hmOpts = {
-    radius: { value: 400, absolute: true},
+    radius: { value: 200, absolute: true},
     opacity: 0.8,
     gradient: {
       0.45: "rgb(0,0,255)",
