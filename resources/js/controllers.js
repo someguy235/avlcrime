@@ -16,6 +16,18 @@ var FILL_COLORS = {
   'Rape': '#D73027',
   'Homicide': '#A50026'
 }
+var ORDERS = [
+  'Drug Arrest',
+  'Vandalism',
+  'Larceny of Motor Vehicle',
+  'Larceny',
+  'Burglary',
+  'Robbery',
+  'Aggravated Assault',
+  'Rape',
+  'Homicide'
+]
+
 var CrimeModule = angular.module('CrimeApp', []);
 
 CrimeModule.factory('CrimeService', function(){
@@ -24,7 +36,8 @@ CrimeModule.factory('CrimeService', function(){
     layers: layers,
     showPoints: showPoints,
     showHeat: showHeat,
-    crimesCount: crimesCount
+    crimesCount: crimesCount,
+    ORDERS: ORDERS
   }
   return service
 })
@@ -69,6 +82,7 @@ CrimeModule.controller("FormController", function($scope, $http, CrimeService){
   $scope.showPoints = CrimeService.showPoints;
   $scope.showHeat = CrimeService.showHeat;
   $scope.crimesCount = CrimeService.crimesCount;
+  var ORDERS = CrimeService.ORDERS;
   
   $http({
     url: '/avlcrime/params',
@@ -77,7 +91,12 @@ CrimeModule.controller("FormController", function($scope, $http, CrimeService){
   }).success(function (offenses, status, headers, config) {
     var tmpOff = []
     for(var i=0; i<offenses.length; i++){
-      tmpOff.push({name: offenses[i], selected: false, color: FILL_COLORS[offenses[i]]})
+      tmpOff.push({
+        name: offenses[i], 
+        selected: false, 
+        color: FILL_COLORS[offenses[i]],
+        index: ORDERS.indexOf(offenses[i])
+      })
     }
     $scope.offenses = tmpOff;
   }).error(function (data, status, headers, config) {
@@ -161,7 +180,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
           tmpGrp.push(
             L.circleMarker(
               [offense.lat, offense.lon], markerOpts
-            ).bindPopup(offense.date +"<br>"+ offense.add +"<br>"+ offense.off)
+            ).bindPopup(offense.date.substr(0, 10) +"<br>"+ offense.add +"<br>"+ offense.off)
           )
           hmData[offenseType].push({lat:offense.lat, lon:offense.lon, value: 1});
         })

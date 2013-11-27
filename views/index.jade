@@ -17,16 +17,17 @@ html(lang="en")
         div.main.centered.col-md-3(ng-controller="FormController")
           form(ng-submit="")
             div.row-fluid.btn-group-vertical(data-toggle="buttons-checkbox")
-              button.btn.btn-default(ng-repeat="offense in offenses" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") 
+              button.btn.btn-default(ng-repeat="offense in offenses | orderBy:'index'" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") 
                 div.keyCircle(style="background-color:{{offense.color}}")
                 {{offense.name}} 
-            div.row-fluid.btn-group(data-toggle="buttons-checkbox")
+            div.row-fluid
               br
+            div.row-fluid.btn-group(data-toggle="buttons-checkbox")
               button.btn.btn-default(ng-model="showPoints" type="checkbox" checkbox-toggle="") Points
               button.btn.btn-default(ng-model="showHeat" type="checkbox" checkbox-toggle="") Heat
             div.row-fluid
               br
-              | Crimes Found: {{crimesCount}}
+              | Crimes Mapped: {{crimesCount}}
         div.main.centered.col-md-9(ng-controller="DisplayController")
           div#map
       div.row
