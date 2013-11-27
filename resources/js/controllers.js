@@ -127,6 +127,7 @@ CrimeModule.controller("FormController", function($scope, $http, CrimeService){
 
 CrimeModule.controller("DisplayController", function($scope, $http, CrimeService){
   $scope.CrimeService = CrimeService;
+  $scope.showSpinner = false;
   $scope.map = L.map('map',
     {
       center: new L.LatLng(35.595, -82.552),
@@ -194,31 +195,42 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   $scope.getOffenses();
 
   $scope.updateMap = function(){
+    //$scope.showSpinner = true;
     var hmLayerData = [];
     $.each(CrimeService.offenses, function(key, val){
       var layerIdx = $.inArray(val.name, activeLayers);
-      if($scope.map.hasLayer(CrimeService.layers[val.name])){
-        $scope.map.removeLayer(CrimeService.layers[val.name]);
-      }
       if(val.selected){
         hmLayerData = $.merge(hmLayerData, hmData[val.name]);
         if(layerIdx < 0){
           activeLayers.push(val.name);
         }
-        if(CrimeService.showPoints){
-          $scope.map.addLayer(CrimeService.layers[val.name]);
-        }
       }else if(layerIdx > -1){
         activeLayers.splice(layerIdx, 1);
+      }
+    });
+
+    $.each(CrimeService.offenses, function(key, val){
+      var layerIdx = $.inArray(val.name, activeLayers);
+      if(CrimeService.showPoints && layerIdx > -1){
+        if(!$scope.map.hasLayer(CrimeService.layers[val.name])){
+          $scope.map.addLayer(CrimeService.layers[val.name]);
+        }
+      }else if($scope.map.hasLayer(CrimeService.layers[val.name])){
         $scope.map.removeLayer(CrimeService.layers[val.name]);
       }
-    })
-    $scope.map.removeLayer(hmLayer);
+    });
     if(hmLayerData.length > 0 && CrimeService.showHeat){
-      $scope.map.addLayer(hmLayer);
+      if(!$scope.map.hasLayer(hmLayer)){
+        $scope.map.addLayer(hmLayer);
+      }
       hmLayer.setData(hmLayerData);
+    }else{
+      if($scope.map.hasLayer(hmLayer)){
+        $scope.map.removeLayer(hmLayer);
+      }
     }
     CrimeService.crimesCount = hmLayerData.length;
+    //$scope.showSpinner = false;
   }
 
   $scope.$watch('CrimeService.offenses', function(newVal, oldVal, scope){
