@@ -15,7 +15,7 @@ html(lang="en")
             small  Asheville, NC 
       div.row
         div.main.centered.col-md-3(ng-controller="FormController")
-          form(ng-submit="")
+          form(ng-submit="" ng-show="showToggles")
             div.row-fluid.btn-group-vertical(data-toggle="buttons-checkbox")
               button.btn.btn-default(ng-repeat="offense in offenses | orderBy:'index'" ng-model="offense.selected" value="{{offense.name}}" type="checkbox" checkbox-toggle="") 
                 div.keyCircle(style="background-color:{{offense.color}}")

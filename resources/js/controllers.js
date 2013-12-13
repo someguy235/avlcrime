@@ -3,8 +3,6 @@
  * and open the template in the editor.
  */
 
-var offenses, layers = {}, crimesCount = 0;
-var showPoints = true, showHeat = false;
 var FILL_COLORS = {
   'Drug Arrest': '#006837',
   'Vandalism': '#1A9850',
@@ -32,11 +30,12 @@ var CrimeModule = angular.module('CrimeApp', []);
 
 CrimeModule.factory('CrimeService', function(){
   var service = {
-    offenses: offenses,
-    layers: layers,
-    showPoints: showPoints,
-    showHeat: showHeat,
-    crimesCount: crimesCount,
+    offenses: null,
+    layers: {},
+    showPoints: true,
+    showHeat: false,
+    showToggles: false,
+    crimesCount: 0,
     ORDERS: ORDERS
   }
   return service
@@ -81,6 +80,7 @@ CrimeModule.controller("FormController", function($scope, $http, CrimeService){
   $scope.CrimeService = CrimeService;
   $scope.showPoints = CrimeService.showPoints;
   $scope.showHeat = CrimeService.showHeat;
+  $scope.showToggles = CrimeService.showToggles;
   $scope.crimesCount = CrimeService.crimesCount;
   var ORDERS = CrimeService.ORDERS;
   
@@ -118,6 +118,11 @@ CrimeModule.controller("FormController", function($scope, $http, CrimeService){
       CrimeService.showHeat = newVal;
     }
   }, true)
+  $scope.$watch('CrimeService.showToggles', function(newVal, oldVal, scope){
+    if(newVal !== oldVal){
+      $scope.showToggles = CrimeService.showToggles;
+    }
+  });
   $scope.$watch('CrimeService.crimesCount', function(newVal, oldVal, scope){
     if(newVal !== oldVal){
      $scope.crimesCount = CrimeService.crimesCount;
@@ -187,6 +192,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
         })
         CrimeService.layers[offenseType] = L.layerGroup(tmpGrp);;
       })
+      CrimeService.showToggles = true;
     }).error(function (data, status, headers, config) {
       //console.log("error")
     });
