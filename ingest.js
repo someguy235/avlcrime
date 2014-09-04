@@ -35,7 +35,8 @@ request(crimesURL, function(err, res, body){
             finished();
           }else{
             //console.log(key +": crime saved");
-            console.log(JSON.stringify(inCrime));
+            //console.log(JSON.stringify(inCrime));
+            console.log(inCrime.properties.thedate +" : "+ inCrime.properties.offense +" : "+ inCrime.properties.address)
             finished();
           }
         });
