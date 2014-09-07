@@ -239,7 +239,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   $scope.getOffenses();
 
   $scope.updateMap = function(){
-    $scope.showSpinner =true;
+    //$scope.showSpinner =true;
     var hmLayerData = [];
 
     // Update the list of active layers

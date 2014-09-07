@@ -38,9 +38,9 @@ html(lang="en")
               br
               | Crimes Mapped: {{crimesCount}}
         div.main.centered.col-md-9(ng-controller="DisplayController")
-          div#map-spinner(ng-show="showSpinner" style="")
-            img(src="/avlcrime/resources/img/spinner-small.gif")
           div#map
+            div#map-spinner(ng-show="showSpinner")
+              img(src="/avlcrime/resources/img/spinner-small.gif")
       div.row
         br
         div.col-md-12
