@@ -26,11 +26,8 @@ app.get('/avlcrime', function(req, res){
 });
 
 app.post('/avlcrime/crimes', function(req, response){
-  console.log("year: "+ req.body.year);
   var bDate = req.body.year + "-01-01 00:00:00.0";
   var eDate = (parseInt(req.body.year, 10) + 1) + "-01-01 00:00:00.0";
-  console.log(bDate)
-  console.log(eDate);
   //db.crimes.find({}, 
   //db.crimes.find({"properties.thedate" : {$gte: "2014-01-01 00:00:00.0"}},
   db.crimes.find({"properties.thedate" : {$gte: bDate, $lt: eDate}},

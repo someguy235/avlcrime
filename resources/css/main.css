@@ -19,4 +19,17 @@ body {
 }
 #map{
   height: 450px;
+  z-index: 50;
+}
+#map-spinner{
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+#map-spinner img{
+  position: absolute;
+  top: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 100;
 }

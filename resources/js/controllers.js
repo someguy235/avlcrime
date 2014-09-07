@@ -203,6 +203,8 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   };
 
   $scope.getOffenses = function(){
+    $scope.showSpinner = true;
+
     $http({
       url: '/avlcrime/crimes',
       method: "POST",
@@ -237,7 +239,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   $scope.getOffenses();
 
   $scope.updateMap = function(){
-    //$scope.showSpinner = true;
+    $scope.showSpinner =true;
     var hmLayerData = [];
 
     // Update the list of active layers
@@ -275,7 +277,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
       }
     }
     CrimeService.crimesCount = hmLayerData.length;
-    //$scope.showSpinner = false;
+    $scope.showSpinner = false;
   }
 
   $scope.$watch('CrimeService.offenses', function(newVal, oldVal, scope){
