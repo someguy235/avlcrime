@@ -35,7 +35,7 @@ CrimeModule.factory('CrimeService', function(){
     showPoints: true,
     showHeat: false,
     showToggles: false,
-    selectYear: 2014,
+    selectYear: 2015,
     crimesCount: 0,
     ORDERS: ORDERS
   }

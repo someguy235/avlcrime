@@ -30,10 +30,14 @@ html(lang="en")
             div.row-fluid
               br
             div.row-fluid.btn-group(data-toggle="buttons-radio")
-              button.btn.btn-default(ng-model="selectYear" value="2011" type="button" buttons-radio="") 2011
+              <!--button.btn.btn-default(ng-model="selectYear" value="2011" type="button" buttons-radio="") 2011-->
               button.btn.btn-default(ng-model="selectYear" value="2012" type="button" buttons-radio="") 2012
               button.btn.btn-default(ng-model="selectYear" value="2013" type="button" buttons-radio="") 2013
-              button.btn.btn-default.active(ng-model="selectYear" value="2014" type="button" buttons-radio="") 2014
+              button.btn.btn-default(ng-model="selectYear" value="2014" type="button" buttons-radio="") 2014
+              button.btn.btn-default.active(ng-model="selectYear" value="2015" type="button" buttons-radio="") 2015
+              br
+              div.centered
+                button.btn.btn-default(ng-model="selectYear" value="month" type="button" buttons-radio="") past month
             div.row-fluid
               br
               | Crimes Mapped: {{crimesCount}}

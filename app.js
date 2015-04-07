@@ -26,9 +26,16 @@ app.get('/avlcrime', function(req, res){
 });
 
 app.post('/avlcrime/crimes', function(req, response){
-  var bDate = req.body.year + "-01-01 00:00:00.0";
-  var eDate = (parseInt(req.body.year, 10) + 1) + "-01-01 00:00:00.0";
-  //db.crimes.find({}, 
+  var bDate, eDate;
+  if(req.body.year === 'month'){
+    var b = new Date();
+    bDate = b.getFullYear() + '-' + ("0"+ b.getMonth()).slice(-2) + '-' + ("0"+ b.getDate()).slice(-2) + ' 00:00:00.0';
+    var e = new Date();
+    eDate = e.getFullYear() + '-' + ("0"+ (e.getMonth() + 1)).slice(-2) + '-' + ("0"+ e.getDate()).slice(-2) + ' 00:00:00.0';
+  }else{
+    bDate = req.body.year + "-01-01 00:00:00.0";
+    eDate = (parseInt(req.body.year, 10) + 1) + "-01-01 00:00:00.0";
+  }
   //db.crimes.find({"properties.thedate" : {$gte: "2014-01-01 00:00:00.0"}},
   db.crimes.find({"properties.thedate" : {$gte: bDate, $lt: eDate}},
     function(err, crimes){
