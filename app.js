@@ -30,8 +30,10 @@ app.post('/avlcrime/crimes', function(req, response){
   if(req.body.year === 'month'){
     var b = new Date();
     bDate = b.getFullYear() + '-' + ("0"+ b.getMonth()).slice(-2) + '-' + ("0"+ b.getDate()).slice(-2) + ' 00:00:00.0';
+    console.log("bDate: "+ bDate);
     var e = new Date();
     eDate = e.getFullYear() + '-' + ("0"+ (e.getMonth() + 1)).slice(-2) + '-' + ("0"+ e.getDate()).slice(-2) + ' 00:00:00.0';
+    console.log("eDate: "+ eDate);
   }else{
     bDate = req.body.year + "-01-01 00:00:00.0";
     eDate = (parseInt(req.body.year, 10) + 1) + "-01-01 00:00:00.0";

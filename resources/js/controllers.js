@@ -91,7 +91,6 @@ CrimeModule.directive('buttonsRadio', function() {
 
       // This should just be added once, but is added for each radio input now?
       $scope.$watch(attr.ngModel, function(newValue, oldValue) {
-        //console.log(newValue);
         element.parent(".btn-group").find('button').removeClass("active");
         element.parent(".btn-group") //.children()
         .find("button[value='" + newValue + "']").addClass('active');
@@ -211,6 +210,11 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
       data: {year: CrimeService.selectYear},
       headers: {'Content-Type': 'application/json'}
     }).success(function (data, status, headers, config) {
+      $.each(CrimeService.offenses, function(key, val){
+        hmData[val.name] = [];
+        CrimeService.layers[val.name] = null;
+      });
+
       $.each(data, function(offenseType, offenseGroup){
         var tmpGrp = [];
         hmData[offenseType] = [];
@@ -223,9 +227,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
           )
           hmData[offenseType].push({lat:offense.lat, lon:offense.lon, value: 1});
         })
-        CrimeService.layers[offenseType] = L.layerGroup(tmpGrp);;
-        //console.log("udpated: "+ offenseType);
-
+        CrimeService.layers[offenseType] = L.layerGroup(tmpGrp);
       })
       
       $scope.updateMap();
@@ -245,7 +247,7 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
     // Update the list of active layers
     $.each(CrimeService.offenses, function(key, val){
       var layerIdx = $.inArray(val.name, activeLayers);
-      if(val.selected){
+      if(val.selected && hmData[val.name].length > 0){
         hmLayerData = $.merge(hmLayerData, hmData[val.name]);
         if(layerIdx < 0){
           activeLayers.push(val.name);
@@ -260,7 +262,6 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
       if(CrimeService.showPoints && layerIdx > -1){
         if(!$scope.map.hasLayer(CrimeService.layers[val.name])){
           $scope.map.addLayer(CrimeService.layers[val.name]);
-          //console.log("added: "+ val.name);
         }
       }else if($scope.map.hasLayer(CrimeService.layers[val.name])){
         $scope.map.removeLayer(CrimeService.layers[val.name]);
@@ -297,13 +298,11 @@ CrimeModule.controller("DisplayController", function($scope, $http, CrimeService
   }, true)
   $scope.$watch('CrimeService.selectYear', function(newVal, oldVal, scope){
     if(newVal !== oldVal){
-      //console.log("selectYear");
 
       // Reset all layer info
       activeLayers = [];
       $.each(CrimeService.offenses, function(key, val){
         if($scope.map.hasLayer(CrimeService.layers[val.name])){
-          //console.log("removed: "+ val.name);
           $scope.map.removeLayer(CrimeService.layers[val.name]);
         }
       });
